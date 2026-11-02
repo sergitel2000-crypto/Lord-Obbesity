@@ -37,8 +37,8 @@ public class PlayerTransformClient {
         float bodyYaw = Mth.rotLerp(pt, p.yBodyRotO, p.yBodyRot);
         float headYaw = Mth.rotLerp(pt, p.yHeadRotO, p.yHeadRot);
         float pitch = Mth.lerp(pt, p.xRotO, p.getXRot());
-        float limbAmt = Math.min(Mth.lerp(pt, p.animationSpeedOld, p.animationSpeed), 1.0f);
-        float limbSwing = p.animationPosition - p.animationSpeed * (1.0f - pt);
+        float limbAmt = Math.min(p.walkAnimation.speed(pt), 1.0f);
+        float limbSwing = p.walkAnimation.position(pt);
 
         ps.mulPose(Axis.YP.rotationDegrees(180.0f - bodyYaw));
         ps.scale(-1.0f, -1.0f, 1.0f);
