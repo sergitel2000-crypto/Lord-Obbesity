@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:entity",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [{ "type": "minecraft:item", "name": "lordobesity:lord_obesity_mask" }]
+    },
+    {
+      "rolls": 1,
+      "entries": [{
+        "type": "minecraft:item", "name": "minecraft:cooked_porkchop",
+        "functions": [{ "function": "minecraft:set_count", "count": { "min": 8, "max": 16 } }]
+      }]
+    },
+    {
+      "rolls": 1,
+      "entries": [{
+        "type": "minecraft:item", "name": "minecraft:golden_apple",
+        "functions": [{ "function": "minecraft:set_count", "count": { "min": 2, "max": 4 } }]
+      }]
+    }
+  ]
+}

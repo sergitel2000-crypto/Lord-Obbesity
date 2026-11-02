@@ -1,0 +1,7 @@
+{
+  "boss_music": {
+    "sounds": [
+      { "name": "lordobesity:boss_music", "stream": true }
+    ]
+  }
+}
