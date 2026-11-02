@@ -20,6 +20,9 @@ public class ModEvents {
         }
         if (e.getTabKey() == CreativeModeTabs.COMBAT) {
             e.accept(ModItems.LORD_OBESITY_MASK);
+            e.accept(ModItems.LORD_OBESITY_CANE);
+            e.accept(ModItems.LORD_OBESITY_HAT);
+            e.accept(ModItems.LORD_OBESITY_JACKET);
         }
     }
 }

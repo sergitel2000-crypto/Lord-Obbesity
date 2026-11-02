@@ -159,6 +159,89 @@ public class LordObesityModel<T extends LivingEntity> extends EntityModel<T> {
                     head.xRot += Mth.lerp(q, 0.5f, 0f);
                 }
             }
+            case LordObesityEntity.JUMP -> {
+                if (t < 15) {
+                    float p = sm(t / 15f);
+                    body.xRot = 0.45f * p;
+                    rightArm.xRot = leftArm.xRot = 0.9f * p;
+                    head.xRot += 0.3f * p;
+                } else {
+                    body.xRot = -0.2f;
+                    rightArm.xRot = leftArm.xRot = -2.8f;
+                    rightArm.zRot = 0.3f;
+                    leftArm.zRot = -0.3f;
+                }
+            }
+            case LordObesityEntity.BEAM -> {
+                if (t < 20) {
+                    float p = sm(t / 20f);
+                    head.xRot += -0.5f * p;
+                    body.xRot = -0.25f * p;
+                    rightArm.zRot = 1.2f * p;
+                    leftArm.zRot = -1.2f * p;
+                    rightArm.xRot = leftArm.xRot = 0f;
+                } else {
+                    head.xRot += -0.3f + 0.05f * Mth.sin(ageInTicks * 0.8f);
+                    body.xRot = -0.25f;
+                    rightArm.xRot = leftArm.xRot = 0f;
+                    rightArm.zRot = 1.2f;
+                    leftArm.zRot = -1.2f;
+                    body.xScale = 1.1f + 0.03f * Mth.sin(ageInTicks * 1.5f);
+                    body.zScale = 1.15f + 0.03f * Mth.sin(ageInTicks * 1.5f);
+                }
+            }
+            case LordObesityEntity.SUCK -> {
+                float p = sm(Math.min(t, 15f) / 15f);
+                if (t < 58) {
+                    rightArm.xRot = leftArm.xRot = -1.5f * p;
+                    rightArm.zRot = 0.3f * p;
+                    leftArm.zRot = -0.3f * p;
+                    head.xRot += -0.4f * p;
+                    body.xRot = -0.15f * p;
+                    float shiver = t >= 15 ? 0.015f * Mth.sin(ageInTicks * 2.0f) : 0f;
+                    body.xScale = 1f + 0.22f * p + shiver;
+                    body.yScale = 1f + 0.06f * p;
+                    body.zScale = 1f + 0.26f * p + shiver;
+                } else {
+                    float q = sm((t - 58) / 12f);
+                    rightArm.xRot = leftArm.xRot = Mth.lerp(q, -1.5f, 0f);
+                    head.xRot += Mth.lerp(q, 0.3f, 0f);
+                    body.xRot = Mth.lerp(q, 0.2f, 0f);
+                    body.xScale = Mth.lerp(q, 0.9f, 1f);
+                    body.zScale = Mth.lerp(q, 0.9f, 1f);
+                }
+            }
+            case LordObesityEntity.SUMMON -> {
+                float p = sm(Math.min(t, 15f) / 15f);
+                float shake = Mth.sin(ageInTicks * 1.4f) * 0.2f;
+                rightArm.xRot = leftArm.xRot = -2.6f * p + shake * p;
+                rightArm.zRot = 0.4f * p;
+                leftArm.zRot = -0.4f * p;
+                head.xRot += -0.4f * p;
+                body.xRot = -0.2f * p;
+            }
+            case LordObesityEntity.ROAR -> {
+                float p = sm(Math.min(t, 10f) / 10f);
+                rightArm.xRot = leftArm.xRot = -2.4f * p;
+                rightArm.zRot = 0.5f * p;
+                leftArm.zRot = -0.5f * p;
+                head.xRot += -0.6f * p;
+                body.xRot = -0.3f * p;
+                body.xScale = 1f + 0.1f * p + 0.03f * Mth.sin(ageInTicks * 1.8f);
+                body.zScale = 1f + 0.1f * p + 0.03f * Mth.sin(ageInTicks * 1.8f);
+            }
+            case LordObesityEntity.EMERGE -> {
+                float p = sm(t / 70f);
+                rightArm.xRot = leftArm.xRot = -2.2f * (1f - p);
+                head.xRot += -0.3f * (1f - p);
+            }
+            case LordObesityEntity.TALK -> {
+                rightArm.xRot = -0.7f + Mth.sin(ageInTicks * 0.45f) * 0.5f;
+                leftArm.xRot = -0.7f + Mth.sin(ageInTicks * 0.45f + 2.0f) * 0.5f;
+                rightArm.zRot = 0.35f;
+                leftArm.zRot = -0.35f;
+                head.xRot += Mth.sin(ageInTicks * 0.5f) * 0.08f;
+            }
             default -> { }
         }
     }

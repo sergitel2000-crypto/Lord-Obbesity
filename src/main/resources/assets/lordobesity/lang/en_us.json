@@ -1,5 +1,8 @@
 {
   "entity.lordobesity.lord_obesity": "Lord Obesity",
   "item.lordobesity.lord_obesity_spawn_egg": "Lord Obesity Spawn Egg",
-  "item.lordobesity.lord_obesity_mask": "Lord Obesity Mask"
+  "item.lordobesity.lord_obesity_mask": "Lord Obesity Mask",
+  "item.lordobesity.lord_obesity_hat": "Lord Obesity's Hat",
+  "item.lordobesity.lord_obesity_jacket": "Lord Obesity's Jacket",
+  "item.lordobesity.lord_obesity_cane": "Lord Obesity's Cane"
 }

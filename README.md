@@ -1,34 +1,37 @@
-# Lord Obesity – Forge 1.20.1 (modelo 3D propio)
+# Lord Obesity – Forge 1.20.1
 
-## Sacar el .jar
+## Compilar
+`gradlew.bat build` (Windows) o `./gradlew build` -> `build/libs/*.jar`. Necesita JDK 17.
+O sube la carpeta a GitHub y usa el workflow "Build mod" (Actions -> Artifacts).
 
-### Opción A – en tu PC (JDK 17 instalado)
-    Windows:  gradlew.bat build
-    Mac/Linux: ./gradlew build
-El .jar queda en `build/libs/lordobesity-1.20.1-1.0.0.jar`.
-Cópialo a la carpeta `mods` de Minecraft con Forge 1.20.1 (47.x).
-Probar sin instalar: `gradlew runClient`.
+## Cómo se juega
+1. **Encuentra** el Sombrero, la Chaqueta y el Bastón (15% en cofres de estructuras: mazmorras,
+   minas, templos, fortalezas, mansiones, tesoros enterrados, ciudades antiguas...).
+2. **Échalos** (clic derecho con cada pieza) en un **caldero**. Con las 3 empieza el ritual.
+   Hazlo al aire libre: Lord Obesity sale de ahí.
+3. **Tendero**: te pide 2-3 objetos al azar (clic derecho con ellos para entregarlos).
+   Si los das todos antes de que amanezca -> recompensa valiosa y se va. Si no, o si le pegas -> se enfada.
+4. **Forma enfadada** (lo de siempre): Aplastamiento, Embestida y Eructo. Al "derrotarlo" se hunde bajo tierra.
+5. Entre **5 y 15 minutos** después te da sustos a lo lejos (inofensivos) y al final vuelve como
+   **el Devorador**: más grande, 1000 de vida y ataques nuevos (Salto, Rayo de eructo, Succión, Invocación).
+6. El Devorador suelta la **Máscara** y el **Bastón**.
 
-### Opción B – sin instalar nada (GitHub)
-1. Crea un repositorio en github.com y sube todo el contenido de esta carpeta.
-2. Pestaña **Actions** -> el workflow "Build mod" se ejecuta solo.
-3. Cuando termine, descarga el artefacto **lordobesity-jar** (contiene el .jar).
+### Máscara
+Te transforma en Lord Obesity y te hace más grande (+20 vida, +4 armadura, +4 daño, +alcance, más lento).
+Al caer desde 3+ bloques aplastas a los enemigos cercanos.
 
-## En el juego
-`/summon lordobesity:lord_obesity` o el huevo en la pestaña de huevos generadores.
+### Bastón
+- Golpe: mucho daño.
+- Clic derecho: eructo letal en cono.
+- Agachado + clic derecho: gancho hacia el bloque que miras.
 
-## Editar el modelo / la textura
-- Modelo: `src/main/java/com/lordobesity/LordObesityModel.java`
-- Textura (128x128): `src/main/resources/assets/lordobesity/textures/entity/lord_obesity.png`
+## Pruebas rápidas (creativo)
+- Huevo generador = tendero. Forzar fases con comandos:
+  `/summon lordobesity:lord_obesity ~ ~ ~ {Stage:1}`  (enfadado)
+  `/summon lordobesity:lord_obesity ~ ~ ~ {Stage:3}`  (Devorador)
+- Objetos en la pestaña de Combate del inventario creativo.
 
-## Contenido (v2)
-- Jefe amarillo con 3 ataques animados: Aplastamiento, Embestida y Eructo (fase 2 al 50% de vida).
-- Drop garantizado: Máscara de Lord Obesity.
-- Con la máscara puesta (clic derecho / ranura de casco) te transformas en Lord Obesity:
-  +20 vida, +4 armadura, +4 daño, resistencia al empuje y algo más lento.
-  Al caer desde 3+ bloques aplastas a los enemigos cercanos.
-
-## Música de jefe
-Suena en bucle (con fundido) mientras estás a menos de 40 bloques de Lord Obesity.
-Para cambiar la canción, sustituye `src/main/resources/assets/lordobesity/sounds/boss_music.ogg`
-(debe ser .ogg Vorbis, estéreo).
+## Música y sonidos
+`assets/lordobesity/sounds/` (.ogg). Los sonidos goofy están sintetizados; sustitúyelos por los tuyos
+manteniendo los nombres (ambient1-3, hurt1-2, death, roar, burp, slam, boing, honk, scare, whistle).
+Los sonidos con posición deben ser MONO; la música (boss_music) puede ser estéreo.

@@ -17,14 +17,14 @@ import net.minecraftforge.fml.common.Mod;
 /** Si llevas la máscara puesta, tu cuerpo se dibuja como Lord Obesity. */
 @Mod.EventBusSubscriber(modid = LordObesityMod.MODID, value = Dist.CLIENT)
 public class PlayerTransformClient {
-    private static final float SCALE = 0.55f; // tamaño relativo al jefe
+    private static final float SCALE = 0.5f * MaskEvents.SIZE; // ajustado a la hitbox mas grande
 
     private static LordObesityModel<Player> model;
 
     @SubscribeEvent
     public static void onRenderPlayer(RenderPlayerEvent.Pre e) {
         Player p = e.getEntity();
-        if (!p.getItemBySlot(EquipmentSlot.HEAD).is(ModItems.LORD_OBESITY_MASK.get())) return;
+        if (!MaskEvents.wearsMask(p)) return;
         e.setCanceled(true);
 
         if (model == null) {

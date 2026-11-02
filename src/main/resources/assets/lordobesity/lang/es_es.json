@@ -1,5 +1,8 @@
 {
   "entity.lordobesity.lord_obesity": "Lord Obesity",
   "item.lordobesity.lord_obesity_spawn_egg": "Huevo generador de Lord Obesity",
-  "item.lordobesity.lord_obesity_mask": "Máscara de Lord Obesity"
+  "item.lordobesity.lord_obesity_mask": "Máscara de Lord Obesity",
+  "item.lordobesity.lord_obesity_hat": "Sombrero de Lord Obesity",
+  "item.lordobesity.lord_obesity_jacket": "Chaqueta de Lord Obesity",
+  "item.lordobesity.lord_obesity_cane": "Bastón de Lord Obesity"
 }

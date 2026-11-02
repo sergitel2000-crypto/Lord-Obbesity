@@ -32,7 +32,7 @@ public class BossMusicClient {
         List<LordObesityEntity> bosses = mc.level.getEntitiesOfClass(
                 LordObesityEntity.class,
                 mc.player.getBoundingBox().inflate(BossMusicInstance.startDistance()),
-                Entity::isAlive);
+                LordObesityEntity::isBossFight);
         if (!bosses.isEmpty()) {
             current = new BossMusicInstance(bosses.get(0));
             mc.getSoundManager().play(current);

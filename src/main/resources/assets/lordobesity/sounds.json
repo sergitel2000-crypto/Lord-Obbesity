@@ -1,7 +1,13 @@
 {
-  "boss_music": {
-    "sounds": [
-      { "name": "lordobesity:boss_music", "stream": true }
-    ]
-  }
+  "boss_music": { "sounds": [ { "name": "lordobesity:boss_music", "stream": true } ] },
+  "ambient": { "sounds": [ "lordobesity:ambient1", "lordobesity:ambient2", "lordobesity:ambient3" ] },
+  "hurt": { "sounds": [ "lordobesity:hurt1", "lordobesity:hurt2" ] },
+  "death": { "sounds": [ "lordobesity:death" ] },
+  "roar": { "sounds": [ "lordobesity:roar" ] },
+  "burp": { "sounds": [ "lordobesity:burp" ] },
+  "slam": { "sounds": [ "lordobesity:slam" ] },
+  "boing": { "sounds": [ "lordobesity:boing" ] },
+  "scare": { "sounds": [ "lordobesity:scare" ] },
+  "honk": { "sounds": [ "lordobesity:honk" ] },
+  "whistle": { "sounds": [ "lordobesity:whistle" ] }
 }
