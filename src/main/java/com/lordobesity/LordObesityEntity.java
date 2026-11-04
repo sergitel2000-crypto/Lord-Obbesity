@@ -91,6 +91,9 @@ public class LordObesityEntity extends Monster {
     private final List<Request> requests = new ArrayList<>();
     private long requestClock = -1L;
     private boolean leaving = false;
+    private boolean fulfilled = false;   // ya le has dado lo de hoy
+    private int streak = 0;              // dias seguidos que le has dado de comer
+    private String lastItemId = "";      // lo que pidio ayer (hoy pide otra cosa)
     @Nullable
     private UUID lastPlayer;
     private int scareTicks = 0;
@@ -343,21 +346,31 @@ public class LordObesityEntity extends Monster {
         }
     }
 
-    // ================= MERCADER =================
+    // ================= MERCADER (una peticion nueva cada dia) =================
     private void tickMerchant() {
         int t = this.tickCount - this.animStart;
         if (getState() == TALK && t >= 40) setState(IDLE);
         if (leaving) return;
-        if (requests.isEmpty()) generateRequests();
 
         Player near = level().getNearestPlayer(this, 48);
-        if (requestClock >= 0 && near != null && currentClock() > requestClock) {
-            becomeAngry(lastPlayer != null && level().getPlayerByUUID(lastPlayer) != null
-                    ? level().getPlayerByUUID(lastPlayer) : near);
+        if (near == null) return;
+        long today = currentClock();
+
+        if (requestClock < 0) {                 // primera peticion, justo tras el ritual
+            newDailyRequest(true);
             return;
         }
-        if (this.tickCount % 2400 == 0 && near != null && !requests.isEmpty()) {
-            say("Hmm... ¿y mi comida? " + describeRequests());
+        if (today > requestClock) {             // ha amanecido un dia nuevo
+            if (!fulfilled) {
+                Player who = lastPlayer != null ? level().getPlayerByUUID(lastPlayer) : null;
+                becomeAngry(who != null ? who : near);
+            } else {
+                newDailyRequest(false);
+            }
+            return;
+        }
+        if (!fulfilled && this.tickCount % 2400 == 0) {
+            say("Hmm... ¿y mi antojo de hoy? " + describeRequests());
         }
     }
 
@@ -366,29 +379,53 @@ public class LordObesityEntity extends Monster {
         return clock / 24000L;
     }
 
-    private void generateRequests() {
-        List<Item> pool = new ArrayList<>(List.of(Items.COOKED_BEEF, Items.COOKED_PORKCHOP, Items.GOLDEN_APPLE,
-                Items.CAKE, Items.PUMPKIN_PIE, Items.COOKIE, Items.BREAD, Items.HONEY_BOTTLE,
-                Items.COOKED_CHICKEN, Items.BAKED_POTATO));
-        Collections.shuffle(pool, new Random(random.nextLong()));
-        int n = 2 + random.nextInt(2);
-        for (int i = 0; i < n; i++) {
-            Item it = pool.get(i);
-            int amount;
-            if (it == Items.CAKE || it == Items.GOLDEN_APPLE) amount = 1 + random.nextInt(2);
-            else if (it == Items.HONEY_BOTTLE) amount = 2 + random.nextInt(3);
-            else if (it == Items.COOKIE) amount = 16 + random.nextInt(17);
-            else if (it == Items.PUMPKIN_PIE) amount = 4 + random.nextInt(5);
-            else amount = 8 + random.nextInt(9);
-            Request r = new Request();
-            r.item = it; r.total = amount; r.left = amount;
-            requests.add(r);
-        }
-        requestClock = currentClock();
+    private static String idOf(Item item) {
+        ResourceLocation id = ForgeRegistries.ITEMS.getKey(item);
+        return id == null ? "" : id.toString();
+    }
+
+    /** Elige un objeto distinto al de ayer y lo pide para hoy. Se mantiene hasta el amanecer. */
+    private void newDailyRequest(boolean first) {
+        List<Item> options = new ArrayList<>(List.of(
+                Items.COOKED_BEEF, Items.COOKED_PORKCHOP, Items.COOKED_CHICKEN, Items.COOKED_MUTTON,
+                Items.COOKED_SALMON, Items.GOLDEN_APPLE, Items.GOLDEN_CARROT, Items.CAKE,
+                Items.PUMPKIN_PIE, Items.COOKIE, Items.BREAD, Items.HONEY_BOTTLE, Items.BAKED_POTATO,
+                Items.APPLE, Items.MELON_SLICE, Items.BEETROOT_SOUP, Items.RABBIT_STEW,
+                Items.MUSHROOM_STEW, Items.SWEET_BERRIES));
+        final String yesterday = lastItemId;
+        options.removeIf(i -> idOf(i).equals(yesterday));
+        Item it = options.get(random.nextInt(options.size()));
+
+        int amount;
+        int extra = Math.min(streak / 2, 6);
+        if (it == Items.CAKE || it == Items.GOLDEN_APPLE) amount = 1 + random.nextInt(2) + Math.min(streak / 4, 3);
+        else if (it == Items.BEETROOT_SOUP || it == Items.RABBIT_STEW || it == Items.MUSHROOM_STEW) amount = 2 + random.nextInt(3);
+        else if (it == Items.HONEY_BOTTLE || it == Items.GOLDEN_CARROT) amount = 3 + random.nextInt(4) + extra;
+        else if (it == Items.COOKIE) amount = 16 + random.nextInt(17) + extra;
+        else if (it == Items.PUMPKIN_PIE) amount = 4 + random.nextInt(5) + extra;
+        else amount = 8 + random.nextInt(9) + extra;
+
+        requests.clear();
+        Request r = new Request();
+        r.item = it; r.total = amount; r.left = amount;
+        requests.add(r);
+        lastItemId = idOf(it);
+        fulfilled = false;
+
+        long today = currentClock();
+        long tod = (level().dimensionType().natural() ? level().getDayTime() : level().getGameTime()) % 24000L;
+        // si te lo invocan ya de noche, tienes hasta el amanecer del dia siguiente
+        requestClock = (first && tod > 12000L) ? today + 1 : today;
+
         setState(TALK);
         level().playSound(null, getX(), getY(), getZ(), ModSounds.HONK.get(), SoundSource.NEUTRAL, 1.5f, 1.0f);
-        say("Hoho... ¡hola, humano! Tengo muuucha hambre. Tráeme esto antes de que amanezca, o lo vas a lamentar: "
-                + describeRequests());
+        if (first) {
+            say("Hoho... ¡hola, humano! Me voy a quedar por aquí. Cada día tendré un antojo distinto. "
+                    + "Hoy quiero: " + describeRequests() + ". Tráemelo antes de que amanezca, o ya sabes...");
+        } else {
+            say("¡Buenos días! Hoy me apetece: " + describeRequests() + ". Antes de mañana, ¿eh?"
+                    + (streak >= 3 ? " (Llevas " + streak + " días portándote bien.)" : ""));
+        }
     }
 
     private String describeRequests() {
@@ -408,6 +445,13 @@ public class LordObesityEntity extends Monster {
         if (level().isClientSide) return InteractionResult.SUCCESS;
 
         lastPlayer = player.getUUID();
+        if (fulfilled) {
+            setState(TALK);
+            level().playSound(null, getX(), getY(), getZ(), ModSounds.AMBIENT.get(), SoundSource.NEUTRAL, 1.5f, 1.1f);
+            say("Hoy ya he comido, gracias. Mañana tendré otro antojo... Vuelve entonces.");
+            return InteractionResult.SUCCESS;
+        }
+
         ItemStack held = player.getItemInHand(hand);
         boolean gave = false;
         for (Request r : requests) {
@@ -419,31 +463,34 @@ public class LordObesityEntity extends Monster {
                 break;
             }
         }
-        boolean done = !requests.isEmpty() && requests.stream().allMatch(r -> r.left <= 0);
+        boolean done = !requests.isEmpty() && requests.stream().allMatch(q -> q.left <= 0);
+        setState(TALK);
         if (done) {
-            say("¡Ñam ñam ñam! ¡Delicioso! Toma tu recompensa... y me largo. ¡Hohoho!");
+            fulfilled = true;
+            streak++;
+            level().playSound(null, getX(), getY(), getZ(), ModSounds.HONK.get(), SoundSource.NEUTRAL, 1.5f, 1.2f);
+            say("¡Ñam ñam ñam! ¡Delicioso! Toma tu recompensa. Mañana tendré otro antojo, no te olvides.");
             giveReward();
-            leaving = true;
-            setState(SINK);
         } else if (gave) {
-            setState(TALK);
             level().playSound(null, getX(), getY(), getZ(), ModSounds.AMBIENT.get(), SoundSource.NEUTRAL, 1.5f, 1.2f);
-            say("Mmm, gracias. Aún quiero: " + describeRequests());
+            say("Mmm, gracias. Aún me falta: " + describeRequests());
         } else {
-            setState(TALK);
             level().playSound(null, getX(), getY(), getZ(), ModSounds.AMBIENT.get(), SoundSource.NEUTRAL, 1.5f, 0.9f);
-            say("Quiero: " + describeRequests() + ". Antes de que amanezca...");
+            say("Hoy quiero: " + describeRequests() + ". Antes de que amanezca...");
         }
         return InteractionResult.SUCCESS;
     }
 
+    /** Recompensa diaria; mejora con la racha de dias seguidos. */
     private void giveReward() {
-        this.spawnAtLocation(new ItemStack(Items.DIAMOND, 8 + random.nextInt(5)));
-        this.spawnAtLocation(new ItemStack(Items.EMERALD, 24 + random.nextInt(17)));
-        this.spawnAtLocation(new ItemStack(Items.ENCHANTED_GOLDEN_APPLE, 1));
-        this.spawnAtLocation(new ItemStack(Items.NETHERITE_INGOT, 1));
+        int s = streak;
+        this.spawnAtLocation(new ItemStack(Items.DIAMOND, 3 + random.nextInt(3) + Math.min(s, 6)));
+        this.spawnAtLocation(new ItemStack(Items.EMERALD, 8 + random.nextInt(9) + Math.min(s * 2, 16)));
+        this.spawnAtLocation(new ItemStack(Items.GOLDEN_APPLE, 1 + random.nextInt(2)));
+        if (s % 3 == 0) this.spawnAtLocation(new ItemStack(Items.ENCHANTED_GOLDEN_APPLE, 1));
+        if (s % 7 == 0) this.spawnAtLocation(new ItemStack(Items.NETHERITE_INGOT, 1));
         if (level() instanceof ServerLevel sl) {
-            ExperienceOrb.award(sl, this.position(), 120);
+            ExperienceOrb.award(sl, this.position(), 60 + s * 10);
             sl.sendParticles(ParticleTypes.HAPPY_VILLAGER, getX(), getY() + 2, getZ(), 40, 1.5, 1.5, 1.5, 0.1);
         }
     }
@@ -834,6 +881,9 @@ public class LordObesityEntity extends Monster {
         tag.putInt("Stage", getStage());
         tag.putLong("RequestClock", requestClock);
         tag.putBoolean("Leaving", leaving);
+        tag.putBoolean("Fulfilled", fulfilled);
+        tag.putInt("Streak", streak);
+        tag.putString("LastItem", lastItemId);
         if (lastPlayer != null) tag.putUUID("LastPlayer", lastPlayer);
         ListTag list = new ListTag();
         for (Request r : requests) {
@@ -856,6 +906,9 @@ public class LordObesityEntity extends Monster {
         }
         requestClock = tag.contains("RequestClock") ? tag.getLong("RequestClock") : -1L;
         leaving = tag.getBoolean("Leaving");
+        fulfilled = tag.getBoolean("Fulfilled");
+        streak = tag.getInt("Streak");
+        lastItemId = tag.getString("LastItem");
         if (tag.hasUUID("LastPlayer")) lastPlayer = tag.getUUID("LastPlayer");
         requests.clear();
         ListTag list = tag.getList("Requests", Tag.TAG_COMPOUND);
@@ -873,6 +926,11 @@ public class LordObesityEntity extends Monster {
 
     @Override
     public boolean removeWhenFarAway(double distance) {
+        return false;
+    }
+
+    @Override
+    public boolean shouldDespawnInPeaceful() {
         return false;
     }
 

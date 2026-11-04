@@ -12,6 +12,9 @@ public class LordObesityRenderer extends MobRenderer<LordObesityEntity, LordObes
     public static final ResourceLocation TEXTURE_MEGA =
             new ResourceLocation(LordObesityMod.MODID, "textures/entity/lord_obesity_mega.png");
 
+    public static final ResourceLocation TEXTURE_ANGRY =
+            new ResourceLocation(LordObesityMod.MODID, "textures/entity/lord_obesity_angry.png");
+
     public LordObesityRenderer(EntityRendererProvider.Context ctx) {
         super(ctx, new LordObesityModel<>(ctx.bakeLayer(LordObesityModel.LAYER)), 1.8f);
     }
@@ -35,6 +38,8 @@ public class LordObesityRenderer extends MobRenderer<LordObesityEntity, LordObes
 
     @Override
     public ResourceLocation getTextureLocation(LordObesityEntity entity) {
-        return entity.isMega() ? TEXTURE_MEGA : TEXTURE;
+        if (entity.isMega()) return TEXTURE_MEGA;
+        if (entity.getStage() == LordObesityEntity.ANGRY) return TEXTURE_ANGRY;
+        return TEXTURE;
     }
 }

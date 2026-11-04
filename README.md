@@ -9,8 +9,10 @@ O sube la carpeta a GitHub y usa el workflow "Build mod" (Actions -> Artifacts).
    minas, templos, fortalezas, mansiones, tesoros enterrados, ciudades antiguas...).
 2. **Échalos** (clic derecho con cada pieza) en un **caldero**. Con las 3 empieza el ritual.
    Hazlo al aire libre: Lord Obesity sale de ahí.
-3. **Tendero**: te pide 2-3 objetos al azar (clic derecho con ellos para entregarlos).
-   Si los das todos antes de que amanezca -> recompensa valiosa y se va. Si no, o si le pegas -> se enfada.
+3. **Tendero**: se queda a vivir donde lo invocaste. Cada **día** te pide **una cosa distinta** (nunca la misma
+   dos días seguidos) y la petición se mantiene hasta el amanecer. Entrégala con clic derecho: te da una
+   recompensa que mejora con tu racha de días. Si a la **mañana siguiente** no se la has dado (o si le pegas)
+   se enfada y empieza el combate.
 4. **Forma enfadada** (lo de siempre): Aplastamiento, Embestida y Eructo. Al "derrotarlo" se hunde bajo tierra.
 5. Entre **5 y 15 minutos** después te da sustos a lo lejos (inofensivos) y al final vuelve como
    **el Devorador**: más grande, 1000 de vida y ataques nuevos (Salto, Rayo de eructo, Succión, Invocación).
