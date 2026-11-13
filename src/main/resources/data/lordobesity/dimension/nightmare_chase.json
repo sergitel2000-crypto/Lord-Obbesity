@@ -1,0 +1,21 @@
+{
+  "type": "lordobesity:nightmare",
+  "generator": {
+    "type": "minecraft:flat",
+    "settings": {
+      "biome": "lordobesity:nightmare_chase",
+      "features": false,
+      "lakes": false,
+      "layers": [
+        {
+          "block": "minecraft:bedrock",
+          "height": 1
+        },
+        {
+          "block": "minecraft:blackstone",
+          "height": 4
+        }
+      ]
+    }
+  }
+}

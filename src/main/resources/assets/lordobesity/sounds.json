@@ -1,0 +1,182 @@
+{
+  "boss_music": {
+    "sounds": [
+      {
+        "name": "lordobesity:boss_music",
+        "stream": true
+      }
+    ]
+  },
+  "ambient": {
+    "sounds": [
+      "lordobesity:ambient1",
+      "lordobesity:ambient2",
+      "lordobesity:ambient3"
+    ]
+  },
+  "hurt": {
+    "sounds": [
+      "lordobesity:hurt1",
+      "lordobesity:hurt2"
+    ]
+  },
+  "death": {
+    "sounds": [
+      "lordobesity:death"
+    ]
+  },
+  "roar": {
+    "sounds": [
+      "lordobesity:roar"
+    ]
+  },
+  "burp": {
+    "sounds": [
+      "lordobesity:burp"
+    ]
+  },
+  "slam": {
+    "sounds": [
+      "lordobesity:slam"
+    ]
+  },
+  "boing": {
+    "sounds": [
+      "lordobesity:boing"
+    ]
+  },
+  "honk": {
+    "sounds": [
+      "lordobesity:honk"
+    ]
+  },
+  "whistle": {
+    "sounds": [
+      "lordobesity:whistle"
+    ]
+  },
+  "scare": {
+    "sounds": [
+      "lordobesity:scare"
+    ]
+  },
+  "whisper": {
+    "sounds": [
+      "lordobesity:whisper1",
+      "lordobesity:whisper2"
+    ]
+  },
+  "rumble": {
+    "sounds": [
+      "lordobesity:rumble"
+    ]
+  },
+  "boom": {
+    "sounds": [
+      "lordobesity:boom"
+    ]
+  },
+  "evil_laugh": {
+    "sounds": [
+      "lordobesity:evil_laugh"
+    ]
+  },
+  "scream": {
+    "sounds": [
+      "lordobesity:scream1",
+      "lordobesity:scream2"
+    ]
+  },
+  "sting": {
+    "sounds": [
+      "lordobesity:sting"
+    ]
+  },
+  "breath": {
+    "sounds": [
+      "lordobesity:breath"
+    ]
+  },
+  "heartbeat": {
+    "sounds": [
+      "lordobesity:heartbeat"
+    ]
+  },
+  "shimmer": {
+    "sounds": [
+      "lordobesity:shimmer"
+    ]
+  },
+  "whoosh": {
+    "sounds": [
+      "lordobesity:whoosh"
+    ]
+  },
+  "inhale": {
+    "sounds": [
+      "lordobesity:inhale"
+    ]
+  },
+  "beam": {
+    "sounds": [
+      "lordobesity:beam"
+    ]
+  },
+  "chitter": {
+    "sounds": [
+      "lordobesity:chitter1",
+      "lordobesity:chitter2"
+    ]
+  },
+  "hook": {
+    "sounds": [
+      "lordobesity:hook1",
+      "lordobesity:hook2"
+    ]
+  },
+  "crack": {
+    "sounds": [
+      "lordobesity:crack"
+    ]
+  },
+  "drone": {
+    "sounds": [
+      "lordobesity:drone"
+    ]
+  },
+  "mini_death": {
+    "sounds": [
+      "lordobesity:mini_death"
+    ]
+  },
+  "mini_hurt": {
+    "sounds": [
+      "lordobesity:mini_hurt"
+    ]
+  },
+  "footstep": {
+    "sounds": [
+      "lordobesity:footstep"
+    ]
+  },
+  "scrape": {
+    "sounds": [
+      "lordobesity:scrape"
+    ]
+  },
+  "music_box": {
+    "sounds": [
+      "lordobesity:music_box"
+    ]
+  },
+  "creak": {
+    "sounds": [
+      "lordobesity:creak"
+    ]
+  },
+  "knock": {
+    "sounds": [
+      "lordobesity:knock"
+    ]
+  }
+}

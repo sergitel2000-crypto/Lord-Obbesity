@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "lordobesity:lore_book_1"
+    },
+    {
+      "item": "lordobesity:lore_book_2"
+    },
+    {
+      "item": "lordobesity:lore_book_3"
+    }
+  ],
+  "result": {
+    "item": "lordobesity:lore_book_complete"
+  }
+}

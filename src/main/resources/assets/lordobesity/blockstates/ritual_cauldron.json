@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "tint=0": {
+      "model": "lordobesity:block/ritual_cauldron"
+    },
+    "tint=1": {
+      "model": "lordobesity:block/ritual_cauldron"
+    },
+    "tint=2": {
+      "model": "lordobesity:block/ritual_cauldron"
+    },
+    "tint=3": {
+      "model": "lordobesity:block/ritual_cauldron"
+    },
+    "tint=4": {
+      "model": "lordobesity:block/ritual_cauldron"
+    },
+    "tint=5": {
+      "model": "lordobesity:block/ritual_cauldron"
+    },
+    "tint=6": {
+      "model": "lordobesity:block/ritual_cauldron"
+    },
+    "tint=7": {
+      "model": "lordobesity:block/ritual_cauldron"
+    },
+    "tint=8": {
+      "model": "lordobesity:block/ritual_cauldron"
+    },
+    "tint=9": {
+      "model": "lordobesity:block/ritual_cauldron"
+    }
+  }
+}
